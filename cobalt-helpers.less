@@ -111,3 +111,15 @@
     transition-duration: @duration, @duration;
     transition-timing-function: linear, ease-in;
 }
+
+.contain-floats {
+    &:before,
+    &:after {
+        content: '';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
