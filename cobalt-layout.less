@@ -4,6 +4,9 @@
 //
 // ------------------------------------------------------------
 
+// "Global" Layout Vars.
+@golden-ratio: 1.618034;
+
 [row] {
     .contain-floats;
 }
@@ -13,73 +16,72 @@
 }
 
 // 
-// Sections. Designed for 2% wells.
+// Sections. Based on a 12-grid with 2% gutters.
 // 
 
-[half] {
-    width: 49%;
-}
+@grid-count: 12;
+@grid-gutter: 0.02;
 
-[third] {
-    width: 32%;
-}
-
-[quarter] {
-    width: 23%;
-}
-    
-[eighth] {
-    width: 18%;
-}
-
-// golden ratio of 98% (2% well)
-@golden-ratio: 1.618034;
-@golden-ratio-width: (0.98 / @golden-ratio);
-
-[main] {
-    width: @golden-ratio-width * 100%;
-}
-
-[side] {
-    width: (0.98 - @golden-ratio-width) * 100%;
-}
-
-[half],
-[third],
-[quarter],
-[eighth],
-[main],
-[side] {
-    float: left;
-    margin-bottom: 20px;
-}
-
-// well between verticals
-[half] + [half],
-[third] + [third],
-[quarter] + [quarter],
-[eighth] + [eighth],
-[side] + [main],
-[main] + [side] {
-    margin-left: 2%;
-}
-
-// Responsive mode.
-[half],
-[third],
-[quarter],
-[eighth],
-[main],
-[side],
-[half] + [half],
-[third] + [third],
-[quarter] + [quarter],
-[eighth] + [eighth],
-[side] + [main],
-[main] + [side] {
+.grid-section-responsive() {
     @media screen and (max-width: @bp1) {
         float: none;
         width: auto;
         margin-left: 0;
     }
 }
+
+.grid-section-layout() {
+    float: left;
+    margin-bottom: 20px;
+    .grid-section-responsive();
+}
+
+.grid-section(@span) {
+    .grid-section-layout();
+
+    // span of n "covers" (n - 1) internal gutters.
+    // total avail. width is 100% - 11 internal gutters
+    @tot-avail: (1 - 11 * @grid-gutter);
+    width: (@span * @tot-avail / 12 + (@span - 1) * @grid-gutter) * 100%;
+}
+
+[half] { .grid-section(6); }    
+[third] { .grid-section(4); }    
+[quarter] { .grid-section(3); }
+[sixth] { .grid-section(2); }
+
+// golden ratio sections, accounting for 2% gutter
+& {
+    @golden-ratio-width: (0.98 / @golden-ratio);
+
+    [main] {
+        width: @golden-ratio-width * 100%;
+    }
+
+    [side] {
+        width: (0.98 - @golden-ratio-width) * 100%;
+    }
+
+    [main], [side] {
+        .grid-section-layout();
+    }
+}
+
+// gutter between verticals
+[half],
+[third],
+[quarter],
+[sixth],
+[main],
+[side] {
+    + [half],
+    + [third],
+    + [quarter],
+    + [sixth],
+    + [main],
+    + [side] {
+        margin-left: @grid-gutter * 100%;
+        .grid-section-responsive();
+    }
+}
+
