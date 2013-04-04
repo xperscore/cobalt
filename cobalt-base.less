@@ -154,37 +154,35 @@ a:hover    { color: @cobalt-blue; }
             .gradient(#f2f4f6, darken(#dbe0e2, 5%));
         }
     }
-
-    // Selected Tab Button
-    > input:checked:nth-child(1) ~ [nav] > label:nth-child(1),
-    > input:checked:nth-child(2) ~ [nav] > label:nth-child(2),
-    > input:checked:nth-child(3) ~ [nav] > label:nth-child(3),
-    > input:checked:nth-child(4) ~ [nav] > label:nth-child(4),
-    > input:checked:nth-child(5) ~ [nav] > label:nth-child(5),
-    > input:checked:nth-child(6) ~ [nav] > label:nth-child(6),
-    > input:checked:nth-child(7) ~ [nav] > label:nth-child(7) {
-        .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
-        .active-shadow(#dbe0e2);
-        .border(darken(#b3b3b3, 10%));
-    }
     
     // tab content containers
     > [content] > div {
         display: none;
-        padding: 10px;
     }
+    
+    // selected tab button
+    .sel-tab-btn(@idx) { > input:checked:nth-child(@idx) ~ [nav] > label:nth-child(@idx) {
+        .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
+        .active-shadow(#dbe0e2);
+        .border(darken(#b3b3b3, 10%));
+    } }
 
     // selected tab content container
-    > input:checked:nth-child(1) ~ [content] > div:nth-child(1),
-    > input:checked:nth-child(2) ~ [content] > div:nth-child(2),
-    > input:checked:nth-child(3) ~ [content] > div:nth-child(3),
-    > input:checked:nth-child(4) ~ [content] > div:nth-child(4),
-    > input:checked:nth-child(5) ~ [content] > div:nth-child(5),
-    > input:checked:nth-child(6) ~ [content] > div:nth-child(6),
-    > input:checked:nth-child(7) ~ [content] > div:nth-child(7) {
+    .sel-tab-cont(@idx) { > input:checked:nth-child(@idx) ~ [content] > div:nth-child(@idx) {
         display: block;
+        padding: 10px;
+    } }
+
+    // enumerate tab selectablility
+    .selectable(@idx) when (@idx > 0) {
+        .sel-tab-btn(@idx);
+        .sel-tab-cont(@idx);
+        .selectable((@idx - 1));
     }
 
+    // allow up to 10 tabs
+    .selectable(10);
+    
 } // [tabs], [vtabs]
 
 // Horizontal tabs
