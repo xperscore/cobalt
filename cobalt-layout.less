@@ -1,0 +1,85 @@
+// ------------------------------------------------------------
+//
+// Cobalt CSS Layout.
+//
+// ------------------------------------------------------------
+
+[row] {
+    .contain-floats;
+}
+
+[fixedwidth] {
+    .wrapper;
+}
+
+// 
+// Sections. Designed for 2% wells.
+// 
+
+[half] {
+    width: 49%;
+}
+
+[third] {
+    width: 32%;
+}
+
+[quarter] {
+    width: 23%;
+}
+    
+[eighth] {
+    width: 18%;
+}
+
+// golden ratio of 98% (2% well)
+@golden-ratio: 1.618034;
+@golden-ratio-width: (0.98 / @golden-ratio);
+
+[main] {
+    width: @golden-ratio-width * 100%;
+}
+
+[side] {
+    width: (0.98 - @golden-ratio-width) * 100%;
+}
+
+[half],
+[third],
+[quarter],
+[eighth],
+[main],
+[side] {
+    float: left;
+    margin-bottom: 20px;
+}
+
+// well between verticals
+[half] + [half],
+[third] + [third],
+[quarter] + [quarter],
+[eighth] + [eighth],
+[side] + [main],
+[main] + [side] {
+    margin-left: 2%;
+}
+
+// Responsive mode.
+[half],
+[third],
+[quarter],
+[eighth],
+[main],
+[side],
+[half] + [half],
+[third] + [third],
+[quarter] + [quarter],
+[eighth] + [eighth],
+[side] + [main],
+[main] + [side] {
+    @media screen and (max-width: @bp1) {
+        float: none;
+        width: auto;
+        margin-left: 0;
+    }
+}
