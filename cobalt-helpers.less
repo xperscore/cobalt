@@ -67,6 +67,17 @@
 	   -moz-border-radius: 0 0 @radius @radius;
 	        border-radius: 0 0 @radius @radius;
 }
+.border-radius-left(@radius) {
+	-webkit-border-radius: @radius 0 0 @radius;
+	   -moz-border-radius: @radius 0 0 @radius;
+	        border-radius: @radius 0 0 @radius;
+}
+.border-radius-right(@radius) {
+	-webkit-border-radius: 0 @radius @radius 0;
+	   -moz-border-radius: 0 @radius @radius 0;
+	        border-radius: 0 @radius @radius 0;
+}
+
 
 
 // Inner Shadow
@@ -90,7 +101,7 @@
 // -----------------
 // Params: @duration
 //
-.fade-links(@duration) {
+.fade-links(@duration: .25s) {
     -webkit-transition-property: color, background;
     -webkit-transition-duration: @duration, @duration;
     -webkit-transition-timing-function: linear, ease-in;
