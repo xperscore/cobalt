@@ -1,0 +1,113 @@
+// ------------------------------------------------------------
+//
+// Cobalt CSS Helpers.
+//
+// ------------------------------------------------------------
+
+
+// Gradients
+// -----------------
+// @Start = TOP 
+// @End   = Bottom
+//
+.gradient(@start: #fff, @end: #e5e5e5, @start-pos: 0%, @end-pos: 100%) {
+	background: darken(@start, 5%);
+	background: -moz-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(@start-pos, @start), color-stop(@end-pos, @end));
+	background: -webkit-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background: -ms-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background: -o-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background: linear-gradient(to bottom, @start @start-pos, @end @end-pos);
+}
+
+// Box Model
+// -----------------
+// Params: @model-type 
+//
+.box-model(@model-type: border-box) {
+	-webkit-box-sizing: @model-type;
+	   -moz-box-sizing: @model-type;
+	        box-sizing: @model-type;
+}
+
+// Border
+// -----------------
+// Params: @color 
+//
+.border(@color) {
+	border: 1px solid @color;
+}
+
+.border-top-bottom(@color) {
+	border-top: 1px solid @color;
+	border-bottom: 1px solid @color;
+}
+
+.border-left-right(@color) {
+	border-left: 1px solid @color;
+	border-right: 1px solid @color;
+}
+
+// Border Radius
+// -----------------
+// Params: @radius 
+//
+.border-radius(@radius) {
+	-webkit-border-radius: @radius;
+	   -moz-border-radius: @radius;
+	        border-radius: @radius;
+}
+.border-radius-top(@radius) {
+	-webkit-border-radius: @radius @radius 0 0;
+	   -moz-border-radius: @radius @radius 0 0;
+	        border-radius: @radius @radius 0 0;
+}
+.border-radius-bottom(@radius) {
+	-webkit-border-radius: 0 0 @radius @radius;
+	   -moz-border-radius: 0 0 @radius @radius;
+	        border-radius: 0 0 @radius @radius;
+}
+
+
+// Inner Shadow
+// -----------------
+// Params: @color
+//
+.inner-highlight(@color) {
+	box-shadow: inset 0px 1px 0px 0px @color;
+}
+
+// Text Bottom Highlight
+// ---------------------
+// Params: @color
+//
+.text-bottom-highlight(@color) {
+	text-shadow: 0px 1px 0px @color;
+}
+
+
+// Link Transitions
+// -----------------
+// Params: @duration
+//
+.fade-links(@duration) {
+    -webkit-transition-property: color, background;
+    -webkit-transition-duration: @duration, @duration;
+    -webkit-transition-timing-function: linear, ease-in;
+    
+    -moz-transition-property: color, background;
+    -moz-transition-duration: @duration, @duration;
+    -moz-transition-timing-function: linear, ease-in;
+    
+    -o-transition-property: color, background;
+    -o-transition-duration: @duration, @duration;
+    -o-transition-timing-function: linear, ease-in;
+    
+    -ms-transition-property: color, background;
+    -ms-transition-duration: @duration, @duration;
+    -ms-transition-timing-function: linear, ease-in;
+    
+    transition-property: color, background;
+    transition-duration: @duration, @duration;
+    transition-timing-function: linear, ease-in;
+}

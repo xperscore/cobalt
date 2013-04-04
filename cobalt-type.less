@@ -1,0 +1,53 @@
+// ------------------------------------------------------------
+//
+// Cobalt CSS Typeography & Icon Font's.
+//
+// ------------------------------------------------------------
+
+// Main Font
+// ---------
+//
+@import url("//fonts.googleapis.com/css?family=Open+Sans:400,300,600");
+
+.default-font() {
+	font-family: 'Open Sans', Helvetica, Arial, Sans-serif;
+}
+
+// Cobalt Icons
+// ------------
+//
+@font-face {
+	font-family: 'cobalt-icons';
+	src:url('cobalt/icons/cobalt-icons.eot');
+	src:url('cobalt/icons/cobalt-icons.eot?#iefix') format('embedded-opentype'),
+		url('cobalt/icons/cobalt-icons.woff') format('woff'),
+		url('cobalt/icons/cobalt-icons.ttf') format('truetype'),
+		url('cobalt/icons/cobalt-icons.svg#cobalt-icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon-font {
+	font-family: 'cobalt-icons';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+// Icons
+.icon-search        { content: "\31"; .icon-font; }
+.icon-pin           { content: "\32"; .icon-font; }
+.icon-photo         { content: "\33"; .icon-font; }
+.icon-tv-play       { content: "\34"; .icon-font; }
+.icon-calendar      { content: "\35"; .icon-font; }
+.icon-facebook      { content: "\36"; .icon-font; }
+.icon-twitter       { content: "\37"; .icon-font; }
+.icon-left-arrow    { content: "\38"; .icon-font; }
+.icon-right-arrow   { content: "\39"; .icon-font; }
+.icon-up-arrow      { content: "\30"; .icon-font; }
+.icon-down-arrow    { content: "\41"; .icon-font; }
+.icon-menu          { content: "\21"; .icon-font; }
+.icon-cross         { content: "\22"; .icon-font; }
+
