@@ -11,7 +11,7 @@
 // Include: <div class="bp-tester"></div>
 //
 .bp-tester {
-	&::after {
+	&:after {
 		position: fixed;
 		bottom: 0px;
 		left: 0;
@@ -138,24 +138,24 @@ a:hover    { color: @cobalt-blue; }
     margin-bottom: 20px;
     .contain-floats;
 
-    // selected tab indicator
-    > input {
-        display: none;
-    }
+    // Selected tab indicator
+    > input { display: none; }
     
     // tab buttons
     > [nav] label {
-        // TODO
-        padding: 3px 5px;
+        .border(#b3b3b3);
+        .gradient(#f2f4f6, #dbe0e2);
+        .inner-highlight(#fff);
+        padding: 10px 20px;
         font-weight: bold;
+        
+        &:hover {
+            cursor: pointer;
+            .gradient(#f2f4f6, darken(#dbe0e2, 5%));
+        }
     }
 
-    // tab content containers
-    > [content] > div {
-        display: none;
-    }
-
-    // selected tab button
+    // Selected Tab Button
     > input:checked:nth-child(1) ~ [nav] > label:nth-child(1),
     > input:checked:nth-child(2) ~ [nav] > label:nth-child(2),
     > input:checked:nth-child(3) ~ [nav] > label:nth-child(3),
@@ -163,7 +163,15 @@ a:hover    { color: @cobalt-blue; }
     > input:checked:nth-child(5) ~ [nav] > label:nth-child(5),
     > input:checked:nth-child(6) ~ [nav] > label:nth-child(6),
     > input:checked:nth-child(7) ~ [nav] > label:nth-child(7) {
-        background-color: #D0E5F2;
+        .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
+        .active-shadow(#dbe0e2);
+        .border(darken(#b3b3b3, 10%));
+    }
+    
+    // tab content containers
+    > [content] > div {
+        display: none;
+        padding: 10px;
     }
 
     // selected tab content container
@@ -176,28 +184,49 @@ a:hover    { color: @cobalt-blue; }
     > input:checked:nth-child(7) ~ [content] > div:nth-child(7) {
         display: block;
     }
-}
+
+} // [tabs], [vtabs]
 
 // Horizontal tabs
 [tabs] {
     > [nav] label {
         float: left;
+        .border-radius-top();
     }
+    
+    > [nav] label + label {
+         margin-left: 6px;
+     }
 
     > [content] {
-        float: left;
-        width: 100%;
+        
+        > div {
+            float: left;
+            width: 100%;
+            .border(#b3b3b3);
+            margin-top: -1px;
+        }
     }
 }
 
 // Vertical tabs
 [vtabs] {
+    //.border(#b3b3b3);
+    border-left: none;
+    
     > [nav] {
-       float: left;
-       label {
-           display: block;
-       }
-    }
+        float: left;
+        
+        > label {
+            display: block;
+            .border-radius-left();
+        }
+        
+        > label + label {
+            border-top: none !important;
+        }
+    
+    } // > [nav]
 
     > [content] {
         overflow: hidden;
@@ -210,7 +239,7 @@ a:hover    { color: @cobalt-blue; }
 //
 // Params: 
 // @size: very-small || [small] || medium || large || huge
-// @color: [default] || red || green || blue || yellow || dark
+// @color: [default] || red || green || blue || yellow || dark || Custom HEX
 // @rounded: true || [false]
 // 
 .btn(@size: small, @color: default, @rounded: false) {
@@ -246,15 +275,20 @@ a:hover    { color: @cobalt-blue; }
     
     // ----------------------------------------
     // Button colors
+    //
+    // Params: @lightcolor @darkcolor @highlight @border @font: light || [dark]
+    //
+    .btn-styles(
+        @lightcolor: #f0f3f4, @darkcolor: #dce1e3, @highlight: @white, 
+        @border: #c0c6c9, @font: dark) {
     
-    .btn-color-styles(@lightcolor: #f0f3f4, @darkcolor: #dce1e3, @highlight: @white, @border: #c0c6c9, @font: dark) {
         .gradient(@lightcolor, @darkcolor);
         .inner-highlight(@highlight);
         .border(@border);
         .fade-links(.25s);
         
         .color() when (@font = dark) {
-            color: darken(@darkcolor, 40%);
+            color: darken(@darkcolor, 30%);
         }
         .color() when (@font = light) {
             color: @white;
@@ -266,7 +300,7 @@ a:hover    { color: @cobalt-blue; }
             .border(darken(@border, 10%));
             
             .color() when (@font = dark) {
-                color: darken(@darkcolor, 50%);
+                color: darken(@darkcolor, 40%);
             }
             .color() when (@font = light) {
                 color: @white;
@@ -277,14 +311,27 @@ a:hover    { color: @cobalt-blue; }
         
         &:active {
             .gradient(darken(@lightcolor, 3%), darken(@darkcolor, 8%));
-            box-shadow: inset 0px 3px 7px 2px darken(@darkcolor, 5%);
+            .active-shadow(@darkcolor);
         
         } // &:active
         
-    } // btn-color-styles()
+    } // btn-styles()
     
-    .btn-color() when (@color = default) { .btn-color-styles(); }
-    .btn-color() when (@color = red) { .btn-color-styles(#e75646, #c9392a, #f88d81, #940f01, light); }
+    .btn-color() {
+        @lightcolor: lighten(@color, 5%);
+        @darkcolor:  darken(@color, 15%);
+        @highlight:  lighten(@color, 20%);
+        @border:     darken(@color, 30%);
+        
+        .btn-styles(@lightcolor, @darkcolor, @highlight, @border, light);
+    }
+    
+    .btn-color() when (@color = default) { .btn-styles(); }
+    .btn-color() when (@color = red)     { .btn-styles(#e75646, #c9392a, #f88d81, #940f01, light); }
+    .btn-color() when (@color = green)   { .btn-styles(#2fc983, #259c65, #80dcb2, #2c9163, light); }
+    .btn-color() when (@color = blue)    { .btn-styles(#6bb3e9, #267c9c, #96d2f1, #157294, light); }
+    .btn-color() when (@color = yellow)  { .btn-styles(#fbd256, #e8ab18, #ffebb4, #cd8c00, light); }
+    .btn-color() when (@color = dark)    { .btn-styles(#586570, #40484d, #74899a, #000, light); }
     
     // Set everything.
     display: inline-block;
