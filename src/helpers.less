@@ -34,16 +34,16 @@
 // -----------------
 // Params: @color 
 //
-.border(@color) {
+.border(@color: lightgray) {
 	border: 1px solid @color;
 }
 
-.border-top-bottom(@color) {
+.border-top-bottom(@color: lightgray) {
 	border-top: 1px solid @color;
 	border-bottom: 1px solid @color;
 }
 
-.border-left-right(@color) {
+.border-left-right(@color: lightgray) {
 	border-left: 1px solid @color;
 	border-right: 1px solid @color;
 }
@@ -57,27 +57,42 @@
 	   -moz-border-radius: @radius;
 	        border-radius: @radius;
 }
+.border-radius-top-left(@radius: 4px) {
+     -webkit-border-top-left-radius: @radius;
+         -moz-border-radius-topleft: @radius;
+             border-top-left-radius: @radius;
+}
+.border-radius-top-right(@radius: 4px) {
+    -webkit-border-top-right-radius: @radius;
+        -moz-border-radius-topright: @radius;
+            border-top-right-radius: @radius;
+}
+.border-radius-bottom-left(@radius: 4px) {
+     -webkit-border-bottom-left-radius: @radius;
+         -moz-border-radius-bottomleft: @radius;
+             border-bottom-left-radius: @radius;
+}
+.border-radius-bottom-right(@radius: 4px) {
+    -webkit-border-bottom-right-radius: @radius;
+        -moz-border-radius-bottomright: @radius;
+            border-bottom-right-radius: @radius;
+}
 .border-radius-top(@radius: 4px) {
-	-webkit-border-radius: @radius @radius 0 0;
-	   -moz-border-radius: @radius @radius 0 0;
-	        border-radius: @radius @radius 0 0;
+    .border-radius-top-left(@radius);
+    .border-radius-top-right(@radius);
 }
 .border-radius-bottom(@radius: 4px) {
-	-webkit-border-radius: 0 0 @radius @radius;
-	   -moz-border-radius: 0 0 @radius @radius;
-	        border-radius: 0 0 @radius @radius;
+    .border-radius-bottom-left(@radius);
+    .border-radius-bottom-right(@radius);
 }
 .border-radius-left(@radius: 4px) {
-	-webkit-border-radius: @radius 0 0 @radius;
-	   -moz-border-radius: @radius 0 0 @radius;
-	        border-radius: @radius 0 0 @radius;
+    .border-radius-top-left(@radius);
+    .border-radius-bottom-left(@radius);
 }
 .border-radius-right(@radius: 4px) {
-	-webkit-border-radius: 0 @radius @radius 0;
-	   -moz-border-radius: 0 @radius @radius 0;
-	        border-radius: 0 @radius @radius 0;
+    .border-radius-top-right(@radius);
+    .border-radius-bottom-right(@radius);
 }
-
 
 
 // Inner Shadow
@@ -143,5 +158,19 @@
 
     &:after {
         clear: both;
+    }
+}
+
+// Customization Points
+// --------------------
+//
+.theme(@type) {}
+.wireframe(@type) {}
+.customize(@type) {
+    body[wireframe=""] & {
+        .wireframe(@type);
+    }
+    body:not([wireframe=""]) & {
+        .theme(@type);
     }
 }

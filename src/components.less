@@ -128,15 +128,12 @@ a:hover    { color: @cobalt-blue; }
     // tab buttons
     > nav label {
         cursor: pointer;
-        .border(#b3b3b3);
-        .gradient(#f2f4f6, #dbe0e2);
-        .inner-highlight(#fff);
+        .border;
         padding: 10px 20px;
-        font-weight: bold;
+        .customize('tab-btn');
         
         &:hover {
-            cursor: pointer;
-            .gradient(#f2f4f6, darken(#dbe0e2, 5%));
+            .customize('tab-btn:hover');
         }
     }
     
@@ -147,15 +144,12 @@ a:hover    { color: @cobalt-blue; }
     
     // selected tab button
     .sel-tab-btn(@idx) { > input:checked:nth-child(@{idx}) ~ nav > label:nth-child(@{idx}) {
-        .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
-        .active-shadow(#dbe0e2);
-        .border(darken(#b3b3b3, 10%));
+        .customize('tab-btn:active');
     } }
 
     // selected tab content container
     .sel-tab-cont(@idx) { > input:checked:nth-child(@{idx}) ~ [content] > div:nth-child(@{idx}) {
         display: block;
-        padding: extract(10px 'blah', 1);
     } }
 
     // enumerate tab selectablility
@@ -169,6 +163,10 @@ a:hover    { color: @cobalt-blue; }
     .selectable(10);
     
 } // [tabs], [vtabs]
+
+.wireframe('tab-btn:active') {
+    background: lightgray;
+}
 
 // Horizontal tabs
 [tabs] {
@@ -186,27 +184,37 @@ a:hover    { color: @cobalt-blue; }
         > div {
             float: left;
             width: 100%;
-            .border(#b3b3b3);
             margin-top: -1px;
+            .border(#b3b3b3);
         }
     }
 }
 
 // Vertical tabs
 [vtabs] {
-    //.border(#b3b3b3);
+    .border(#b3b3b3);
+    .border-radius-left;
     border-left: none;
     
     > nav {
         float: left;
+        margin-top: -1px;
+        margin-bottom: -1px;
         
         > label {
             display: block;
-            .border-radius-left();
-        }
-        
-        > label + label {
-            border-top: none !important;
+
+            + label {
+                border-top: none !important;
+            }
+
+            &:first-child {
+                .border-radius-top-left;
+            }
+
+            &:last-child {
+                .border-radius-bottom-left;
+            }
         }
     
     } // > nav
@@ -292,6 +300,80 @@ label[for=site-nav-toggle] {
         }
     }
 }
+
+// ----------------------------------------
+// Button styles
+// ----------------------------------------
+//
+// Params: @lightcolor @darkcolor @highlight @border @font: light || [dark]
+//
+.btn-styles(
+    @lightcolor: #f0f3f4, @darkcolor: #dce1e3, @highlight: @white, 
+    @border: #c0c6c9, @font: dark) {
+
+    .gradient(@lightcolor, @darkcolor);
+    .inner-highlight(@highlight);
+    border-color: @border;
+    .fade-links(.25s);
+    
+    .color() when (@font = dark) {
+        color: darken(@darkcolor, 30%);
+    }
+    .color() when (@font = light) {
+        color: @white;
+    }
+    .color();
+    
+    &:hover {
+        .gradient(@lightcolor, darken(@darkcolor, 5%));
+        border-color: darken(@border, 10%);
+        
+        .color() when (@font = dark) {
+            color: darken(@darkcolor, 40%);
+        }
+        .color() when (@font = light) {
+            color: @white;
+        }
+        .color();
+    
+    } // &:hover
+    
+    &:active {
+        .gradient(darken(@lightcolor, 3%), darken(@darkcolor, 8%));
+        .active-shadow(@darkcolor);
+    
+    } // &:active
+    
+} // btn-styles()
+    
+// ----------------------------------------
+// Button color
+// ----------------------------------------
+// 
+// This is a simpler version of .btn-styles
+//
+// Params:
+// @color: [default] || red || green || blue || yellow || dark || Custom HEX
+// 
+.btn-color(@color: default) {
+    .style() when (iscolor(@color)) {
+        @lightcolor: lighten(@color, 5%);
+        @darkcolor:  darken(@color, 15%);
+        @highlight:  lighten(@color, 20%);
+        @border:     darken(@color, 30%);
+        
+        .btn-styles(@lightcolor, @darkcolor, @highlight, @border, light);
+    }
+
+    .style() when (@color = default) { .btn-styles(); }
+    .style() when (@color = red)     { .btn-styles(#e75646, #c9392a, #f88d81, #940f01, light); }
+    .style() when (@color = green)   { .btn-styles(#2fc983, #259c65, #80dcb2, #2c9163, light); }
+    .style() when (@color = blue)    { .btn-styles(#6bb3e9, #267c9c, #96d2f1, #157294, light); }
+    .style() when (@color = yellow)  { .btn-styles(#fbd256, #e8ab18, #ffebb4, #cd8c00, light); }
+    .style() when (@color = dark)    { .btn-styles(#586570, #40484d, #74899a, #000, light); }
+
+    .style;
+}
     
 
 // ------------------------------------------------------------
@@ -300,10 +382,10 @@ label[for=site-nav-toggle] {
 //
 // Params: 
 // @size: very-small || [small] || medium || large || huge
-// @color: [default] || red || green || blue || yellow || dark || Custom HEX
 // @rounded: true || [false]
+// @color: [notset] || lightgray || red || green || blue || yellow || dark || Custom HEX
 // 
-.btn(@size: small, @color: default, @rounded: false) {
+.btn(@size: small, @rounded: false, @color: notset) {
     
     // ----------------------------------------
     // Set button's border-radius
@@ -333,74 +415,26 @@ label[for=site-nav-toggle] {
         padding: 30px 80px;
         font-size: @base-font-size + 10;
     }
-    
-    // ----------------------------------------
-    // Button colors
-    //
-    // Params: @lightcolor @darkcolor @highlight @border @font: light || [dark]
-    //
-    .btn-styles(
-        @lightcolor: #f0f3f4, @darkcolor: #dce1e3, @highlight: @white, 
-        @border: #c0c6c9, @font: dark) {
-    
-        .gradient(@lightcolor, @darkcolor);
-        .inner-highlight(@highlight);
-        .border(@border);
-        .fade-links(.25s);
-        
-        .color() when (@font = dark) {
-            color: darken(@darkcolor, 30%);
-        }
-        .color() when (@font = light) {
-            color: @white;
-        }
-        .color();
-        
-        &:hover {
-            .gradient(@lightcolor, darken(@darkcolor, 5%));
-            .border(darken(@border, 10%));
-            
-            .color() when (@font = dark) {
-                color: darken(@darkcolor, 40%);
-            }
-            .color() when (@font = light) {
-                color: @white;
-            }
-            .color();
-        
-        } // &:hover
-        
-        &:active {
-            .gradient(darken(@lightcolor, 3%), darken(@darkcolor, 8%));
-            .active-shadow(@darkcolor);
-        
-        } // &:active
-        
-    } // btn-styles()
-    
-    .btn-color() {
-        @lightcolor: lighten(@color, 5%);
-        @darkcolor:  darken(@color, 15%);
-        @highlight:  lighten(@color, 20%);
-        @border:     darken(@color, 30%);
-        
-        .btn-styles(@lightcolor, @darkcolor, @highlight, @border, light);
+
+    .color() { }
+    .color() when not (@color = notset) {
+        .btn-color(@color);
     }
-    
-    .btn-color() when (@color = default) { .btn-styles(); }
-    .btn-color() when (@color = red)     { .btn-styles(#e75646, #c9392a, #f88d81, #940f01, light); }
-    .btn-color() when (@color = green)   { .btn-styles(#2fc983, #259c65, #80dcb2, #2c9163, light); }
-    .btn-color() when (@color = blue)    { .btn-styles(#6bb3e9, #267c9c, #96d2f1, #157294, light); }
-    .btn-color() when (@color = yellow)  { .btn-styles(#fbd256, #e8ab18, #ffebb4, #cd8c00, light); }
-    .btn-color() when (@color = dark)    { .btn-styles(#586570, #40484d, #74899a, #000, light); }
+
+    // default background transparent
+    background: transparent;
     
     // Set everything.
     display: inline-block;
+    .border;
     .is-rounded; 
     .padding-size;
-    .btn-color;
+
+    // Customize *before* color so that immediate color can override
+    .customize('btn');
+
+    .color;
 
 } // btn()
-
 
 

@@ -1,0 +1,32 @@
+
+.cobalt(@type) { }
+
+.theme(@type) {
+    // cobalt is the default theme by def'n.
+    html:not([theme]) &,
+    html[theme=cobalt] & {
+        .cobalt(@type);
+    }
+}
+
+.cobalt('tab-btn') {
+    border-color: #b3b3b3;
+    .gradient(#f2f4f6, #dbe0e2);
+    .inner-highlight(#fff);
+
+    font-weight: bold;
+}
+
+.cobalt('tab-btn:hover') {
+    .gradient(#f2f4f6, darken(#dbe0e2, 5%));
+}
+
+.cobalt('tab-btn:active') {
+    .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
+    .active-shadow(#dbe0e2);
+    border-color: darken(#b3b3b3, 10%);
+}
+
+.cobalt('btn') {
+    .btn-color();
+}
