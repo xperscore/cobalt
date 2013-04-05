@@ -127,6 +127,7 @@ a:hover    { color: @cobalt-blue; }
     
     // tab buttons
     > nav label {
+        cursor: pointer;
         .border(#b3b3b3);
         .gradient(#f2f4f6, #dbe0e2);
         .inner-highlight(#fff);
@@ -214,6 +215,84 @@ a:hover    { color: @cobalt-blue; }
         overflow: hidden;
     }
 }
+
+// ------------------------------------------------------------
+// Site Nav
+// ------------------------------------------------------------
+//
+
+[site-nav] {
+    .contain-floats;
+
+    // nav links.
+    > * {
+        padding: 3px 20px;
+        text-decoration: none;
+        float: left;
+        margin-right: 10px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    @media screen and (max-width: @bp6) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        overflow: hidden;
+        width: 0;
+        -webkit-transition: 0.3s width;
+
+        // nav links.
+        > * {
+            float: none;
+            display: block;
+        }
+    }
+}
+
+#site-nav-toggle {
+    display: none;
+}
+
+// site nav button in responsive mode
+label[for=site-nav-toggle] {
+    display: none;
+    cursor: pointer;
+    .border(lightgray);
+    .border-radius;
+    padding: 3px 5px 1px;
+
+    &:before {
+        .icon-menu;
+    }
+}
+
+@media screen and (max-width: @bp6) {
+    label[for=site-nav-toggle] {
+        display: inline-block;
+    }
+    
+    // site-nav expanded
+    #site-nav-toggle {
+        ~ * [fixed-width], ~ [fixed-width] {
+            -webkit-transition: 0.3s margin-left;
+        }
+
+        &:checked {
+            ~ * [site-nav] {
+                display: block;
+                width: 125px;
+            }
+            ~ * > [fixed-width], ~ [fixed-width] {
+                margin-left: 140px;
+            }
+        }
+    }
+}
+    
 
 // ------------------------------------------------------------
 // Buttons
