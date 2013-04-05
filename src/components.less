@@ -8,9 +8,9 @@
 // ------------------------------------------------------------
 // Break point tester
 //
-// Include: <div class="bp-tester"></div>
+// Include: <div bp-tester></div>
 //
-.bp-tester {
+[bp-tester] {
 	&:after {
 		position: fixed;
 		bottom: 0px;
@@ -67,22 +67,6 @@ body {
     background:  @body-bg;
     .default-font();
 }
-
-// Wrappers
-// ------------------------------------------------------------
-//
-.wrapper() {
-	width: 1000px;
-	margin: 0 auto;
-	
-	// Mobile Wrapper
-	@media screen and (max-width: @bp1) {
-		width: auto; 
-		margin: 0 15px; 
-	}
-
-} // wrapper
-
 
 // ------------------------------------------------------------
 // Links
