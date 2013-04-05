@@ -146,16 +146,16 @@ a:hover    { color: @cobalt-blue; }
     }
     
     // selected tab button
-    .sel-tab-btn(@idx) { > input:checked:nth-child(@idx) ~ nav > label:nth-child(@idx) {
+    .sel-tab-btn(@idx) { > input:checked:nth-child(@{idx}) ~ nav > label:nth-child(@{idx}) {
         .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
         .active-shadow(#dbe0e2);
         .border(darken(#b3b3b3, 10%));
     } }
 
     // selected tab content container
-    .sel-tab-cont(@idx) { > input:checked:nth-child(@idx) ~ [content] > div:nth-child(@idx) {
+    .sel-tab-cont(@idx) { > input:checked:nth-child(@{idx}) ~ [content] > div:nth-child(@{idx}) {
         display: block;
-        padding: 10px;
+        padding: extract(10px 'blah', 1);
     } }
 
     // enumerate tab selectablility
