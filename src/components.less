@@ -142,7 +142,7 @@ a:hover    { color: @cobalt-blue; }
     > input { display: none; }
     
     // tab buttons
-    > [nav] label {
+    > nav label {
         .border(#b3b3b3);
         .gradient(#f2f4f6, #dbe0e2);
         .inner-highlight(#fff);
@@ -161,7 +161,7 @@ a:hover    { color: @cobalt-blue; }
     }
     
     // selected tab button
-    .sel-tab-btn(@idx) { > input:checked:nth-child(@idx) ~ [nav] > label:nth-child(@idx) {
+    .sel-tab-btn(@idx) { > input:checked:nth-child(@idx) ~ nav > label:nth-child(@idx) {
         .gradient(darken(#f2f4f6, 5%), darken(#dbe0e2, 8%));
         .active-shadow(#dbe0e2);
         .border(darken(#b3b3b3, 10%));
@@ -187,12 +187,12 @@ a:hover    { color: @cobalt-blue; }
 
 // Horizontal tabs
 [tabs] {
-    > [nav] label {
+    > nav label {
         float: left;
         .border-radius-top();
     }
     
-    > [nav] label + label {
+    > nav label + label {
          margin-left: 6px;
      }
 
@@ -212,7 +212,7 @@ a:hover    { color: @cobalt-blue; }
     //.border(#b3b3b3);
     border-left: none;
     
-    > [nav] {
+    > nav {
         float: left;
         
         > label {
@@ -224,7 +224,7 @@ a:hover    { color: @cobalt-blue; }
             border-top: none !important;
         }
     
-    } // > [nav]
+    } // > nav
 
     > [content] {
         overflow: hidden;

@@ -9,6 +9,8 @@
 
 [row] {
     .contain-floats;
+    overflow-x: hidden;
+    min-width: 1px;
 }
 
 [fixedwidth] {
@@ -22,18 +24,20 @@
 @grid-count: 12;
 @grid-gutter: 0.02;
 
-.grid-section-responsive() {
-    @media screen and (max-width: @bp1) {
-        float: none;
-        width: auto;
-        margin-left: 0;
-    }
-}
-
 .grid-section-layout() {
     float: left;
     margin-bottom: 20px;
-    .grid-section-responsive();
+    margin-right: 2%;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    @media screen and (max-width: @bp1) {
+        float: none;
+        width: auto;
+        margin-right: 0;
+    }
 }
 
 .grid-section(@span) {
@@ -66,22 +70,3 @@
         .grid-section-layout();
     }
 }
-
-// gutter between verticals
-[half],
-[third],
-[quarter],
-[sixth],
-[main],
-[side] {
-    + [half],
-    + [third],
-    + [quarter],
-    + [sixth],
-    + [main],
-    + [side] {
-        margin-left: @grid-gutter * 100%;
-        .grid-section-responsive();
-    }
-}
-
