@@ -146,6 +146,27 @@
     transition-timing-function: linear, ease-in;
 }
 
+// Dimensions
+// --------------------
+// 
+// Params: 
+// @w, @h: px
+// @float: [notset] || left || right
+//
+.size(@w, @h, @float: notset) {
+    width: @w;
+    height: @h;
+    
+    .disp() when (@float = notset) {
+        display: inline-block;
+    }
+    .disp() when not (@float = notset) {
+        float: @float;
+    }
+
+    .disp;
+}
+
 // Float Containment Hack
 // ----------------------
 //
