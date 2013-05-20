@@ -2,6 +2,23 @@
 @cobalt-path: '../';
 @import "../cobalt.less";
 
+// @import "libs/cobalt/cobalt.less";
+// @import "libs/cobalt-blue.less";
+
+// in their HTML:
+// <html theme=blue>
+
+
+// Buttons
 button {
-    .btn(medium);
+    .btn(large, false);
+}
+
+// Inputs
+[input-wrapper][icon=search] {
+    .input-container(medium, true);
+}
+
+[input-wrapper][icon=pin] {
+    .input-container(medium, false);
 }

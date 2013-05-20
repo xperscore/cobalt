@@ -80,10 +80,10 @@ body {
 // ------------------------------------------------------------
 //
 a { 
-    color: #fff; text-decoration: none; 
+    color: @dark-grey; text-decoration: none; 
     border: 0;
     outline: none;
-    .fade-links(0.25s);
+    .fade-links(0.1s);
 }
 a:hover    { color: @cobalt-blue; }
 *:focus    { outline: none; }
@@ -132,7 +132,7 @@ a:hover    { color: @cobalt-blue; }
     // Selected tab indicator
     > input { display: none; }
     
-    // tab buttons
+    // Tab buttons
     > nav label {
         cursor: pointer;
         .border;
@@ -144,29 +144,29 @@ a:hover    { color: @cobalt-blue; }
         }
     }
     
-    // tab content containers
+    // Tab content containers
     > [content] > div {
         display: none;
     }
     
-    // selected tab button
+    // Selected tab button
     .sel-tab-btn(@idx) { > input:checked:nth-child(@{idx}) ~ nav > label:nth-child(@{idx}) {
         .customize('tab-btn:active');
     } }
 
-    // selected tab content container
+    // Selected tab content container
     .sel-tab-cont(@idx) { > input:checked:nth-child(@{idx}) ~ [content] > div:nth-child(@{idx}) {
         display: block;
     } }
 
-    // enumerate tab selectablility
+    // Enumerate tab selectablility
     .selectable(@idx) when (@idx > 0) {
         .sel-tab-btn(@idx);
         .sel-tab-cont(@idx);
         .selectable((@idx - 1));
     }
 
-    // allow up to 10 tabs
+    // Allow up to 10 tabs
     .selectable(10);
     
 } // [tabs], [vtabs]
@@ -307,6 +307,66 @@ label[for=site-nav-toggle] {
         }
     }
 }
+// site-nav()
+
+// ------------------------------------------------------------
+// Buttons
+// ------------------------------------------------------------
+//
+// Params: 
+// @size: very-small || [small] || medium || large || huge
+// @rounded: true || [false]
+// @color: [notset] || lightgray || red || green || blue || yellow || dark || Custom HEX
+// 
+.btn(@size: small, @rounded: false, @color: notset) {
+    
+    // ----------------------------------------
+    // Set button's border-radius
+    //
+    .rounded(@rounded);
+    
+    // ----------------------------------------
+    // Set button size
+    //
+    .padding-size() when (@size = very-small) {
+        padding: 5px 8px;
+    }
+    .padding-size() when (@size = small) {
+        padding: 8px 12px;
+    }
+    .padding-size() when (@size = medium) {
+        padding: 12px 22px;
+    }
+    .padding-size() when (@size = large) {
+        padding: 15px 40px;
+        font-size: @base-font-size + 5;
+    }
+    .padding-size() when (@size = huge) {
+        padding: 25px 80px;
+        font-size: @base-font-size + 10;
+    }
+
+    // ----------------------------------------
+    // Set button color
+    //
+    .color() when (@color = notset) {
+        .customize('btn-color');
+    }
+    .color() when not (@color = notset) {
+        .btn-color(@color) !important;
+    }
+
+    // Default background transparent
+    background: transparent;
+    
+    // Set everything.
+    display: inline-block;
+    .border;
+    .padding-size;
+    .color;
+
+} // btn()
+
 
 // ----------------------------------------
 // Button Panels 
@@ -391,6 +451,7 @@ label[for=site-nav-toggle] {
     
 } // btn-styles()
     
+    
 // ----------------------------------------
 // Button color
 // ----------------------------------------
@@ -403,9 +464,9 @@ label[for=site-nav-toggle] {
 .btn-color(@color: default) {
     .style() when (iscolor(@color)) {
         @lightcolor: lighten(@color, 5%);
-        @darkcolor:  darken(@color, 15%);
+        @darkcolor:  darken(@color, 12%);
         @highlight:  lighten(@color, 20%);
-        @border:     darken(@color, 30%);
+        @border:     darken(@color, 25%);
         
         .btn-styles(@lightcolor, @darkcolor, @highlight, @border, light);
     }
@@ -418,68 +479,104 @@ label[for=site-nav-toggle] {
     .style() when (@color = dark)    { .btn-styles(#586570, #40484d, #74899a, #000, light); }
 
     .style;
-}
-    
 
-// ------------------------------------------------------------
+} // .btn-color()
+
 // Buttons
-// ------------------------------------------------------------
+// ----------------------------------------
+
+
+// ----------------------------------------
+// Forms
+// ----------------------------------------
 //
-// Params: 
-// @size: very-small || [small] || medium || large || huge
-// @rounded: true || [false]
-// @color: [notset] || lightgray || red || green || blue || yellow || dark || Custom HEX
-// 
-.btn(@size: small, @rounded: false, @color: notset) {
-    
-    // ----------------------------------------
-    // Set button's border-radius
-    .is-rounded() when (@rounded) {
-        .border-radius(50px);
-    }
-    .is-rounded() when not (@rounded) {
-        .border-radius(4px);
-    }
-    
-    // ----------------------------------------
-    // Set button size
-    .padding-size() when (@size = very-small) {
-        padding: 5px 8px;
-    }
-    .padding-size() when (@size = small) {
-        padding: 8px 12px;
-    }
-    .padding-size() when (@size = medium) {
-        padding: 12px 22px;
-    }
-    .padding-size() when (@size = large) {
-        padding: 15px 40px;
-        font-size: @base-font-size + 5;
-    }
-    .padding-size() when (@size = huge) {
-        padding: 30px 80px;
-        font-size: @base-font-size + 10;
-    }
 
-    .color() { }
-    .color() when not (@color = notset) {
-        .btn-color(@color);
-    }
-
-    // default background transparent
-    background: transparent;
-    
-    // Set everything.
+// Input's
+// ----------------------------------------
+//
+.input-container(@size: large, @rounded: true) {
     display: inline-block;
-    .border;
-    .is-rounded; 
-    .padding-size;
+    .border(@vlight-grey);
+    padding-left: 20px;
+    .rounded(@rounded);
+    
+    // When Icon is present
+    &[icon] {
+        padding-left: 15px;
+        
+        &::before {
+            margin-right: 10px;
+            color: @light-grey;
+        }
+    }
+    
+    > input {
+        display: inline-block;
+        color: @dark-grey;
+        
+        border: 0; background: transparent;
+        width: 100%; 
+        
+        .input-size() when (@size = very-small) {
+            width: 150px;
+        }
+        .input-size() when (@size = small) {
+            width: 200px;
+        }
+        .input-size() when (@size = medium) {
+            width: 250px;
+        }
+        .input-size() when (@size = large) {
+            width: 300px;
+        }
+        .input-size() when (@size = huge) {
+            width: 450px;
+        }
+        
+        // Apply
+        .input-size;
+    
+    } // input
+    
+    button {
+    
+        // Set button size
+        .padding-size() when (@size = very-small) {
+            padding: 5px 8px;
+        }
+        .padding-size() when (@size = small) {
+            padding: 8px 12px;
+        }
+        .padding-size() when (@size = medium) {
+            padding: 12px 22px;
+        }
+        .padding-size() when (@size = large) {
+            padding: 15px 25px;
+            font-size: @base-font-size + 5;
+        }
+        .padding-size() when (@size = huge) {
+            padding: 30px 30px;
+            font-size: @base-font-size + 10;
+        }
+        
+        .is-rounded() when (@rounded = true) {
+            .rounded(right);
+        }
+    
+        display: inline-block;
+        margin: -1px -1px;
+        .padding-size;
+        .is-rounded;
+        .border-radius-left(0);
+    
+    } // button
 
-    // Customize *before* color so that immediate color can override
-    .customize('btn');
+    
+} // input-container();
 
-    .color;
 
-} // btn()
+
+
+
 
 

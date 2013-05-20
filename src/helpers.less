@@ -95,6 +95,27 @@
 }
 
 
+// Mixin for rounded elements
+// --------------------------
+//
+.rounded(@rounded) {
+    .is-rounded() when (@rounded) {
+        .border-radius(50px);
+    }
+    .is-rounded() when not (@rounded) {
+        .border-radius(4px);
+    }
+    .is-rounded() when (@rounded = left) {
+        .border-radius-left(50px);
+    }
+    .is-rounded() when (@rounded = right) {
+        .border-radius-right(50px);
+    }
+    
+    .is-rounded();
+}
+
+
 // Inner Shadow
 // -----------------
 // Params: @color
@@ -124,7 +145,7 @@
 // -----------------
 // Params: @duration
 //
-.fade-links(@duration: .25s) {
+.fade-links(@duration: .1s) {
     -webkit-transition-property: color, background;
     -webkit-transition-duration: @duration, @duration;
     -webkit-transition-timing-function: linear, ease-in;

@@ -2,7 +2,7 @@
 .cobalt(@type) { }
 
 .theme(@type) {
-    // cobalt is the default theme by def'n.
+    // Cobalt is the default theme by def'n.
     html:not([theme]) &,
     html[theme=cobalt] & {
         .cobalt(@type);
@@ -27,6 +27,31 @@
     border-color: darken(#b3b3b3, 10%);
 }
 
-.cobalt('btn') {
+.cobalt('btn-color') {
     .btn-color();
-}
+    
+    &[primary] {
+        .btn-color(blue);
+    }
+    
+    &[secondary] {
+        .btn-color;
+    }
+    
+    &[alt] {
+        .btn-color(dark);
+    }
+    
+    &[success] {
+        .btn-color(green);
+    }
+    
+    &[warning] {
+        .btn-color(yellow);
+    }
+    
+    &[danger] {
+        .btn-color(red);
+    }
+    
+} // btn-color

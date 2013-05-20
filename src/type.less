@@ -4,14 +4,16 @@
 //
 // ------------------------------------------------------------
 
+@main-font: 'Open Sans', Helvetica, Arial, Sans-serif;
+
+
 // Main Font
 // ------------------------------------------------------------
 //
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600);
 
-.default-font() {
-	font-family: 'Open Sans', Helvetica, Arial, Sans-serif;
-}
+.default-font() { font-family: @main-font; }
+
 
 // Cobalt Icons
 // ------------------------------------------------------------
@@ -36,18 +38,48 @@
 	-webkit-font-smoothing: antialiased;
 }
 
-// Icons
-.icon-search        { content: "\31"; .icon-font; }
-.icon-pin           { content: "\32"; .icon-font; }
-.icon-photo         { content: "\33"; .icon-font; }
-.icon-tv-play       { content: "\34"; .icon-font; }
-.icon-calendar      { content: "\35"; .icon-font; }
-.icon-facebook      { content: "\36"; .icon-font; }
-.icon-twitter       { content: "\37"; .icon-font; }
-.icon-left-arrow    { content: "\38"; .icon-font; }
-.icon-right-arrow   { content: "\39"; .icon-font; }
-.icon-up-arrow      { content: "\30"; .icon-font; }
-.icon-down-arrow    { content: "\41"; .icon-font; }
-.icon-menu          { content: "\21"; .icon-font; }
-.icon-cross         { content: "\22"; .icon-font; }
+.icon-t(@content) {
+    &:before {
+        content: @content;
+        .icon-font; 
+    }
+}
 
+[icon="search"],      .icon-search        { .icon-t("\31"); }
+[icon="pin"],         .icon-pin           { .icon-t("\32"); }
+[icon="photo"],       .icon-photo         { .icon-t("\33"); }
+[icon="tv-play"],     .icon-tv-play       { .icon-t("\34"); }
+[icon="calendar"],    .icon-calendar      { .icon-t("\35"); }
+[icon="facebook"],    .icon-facebook      { .icon-t("\36"); }
+[icon="twitter"],     .icon-twitter       { .icon-t("\37"); }
+[icon="left-arrow"],  .icon-left-arrow    { .icon-t("\38"); }
+[icon="right-arrow"], .icon-right-arrow   { .icon-t("\39"); }
+[icon="up-arrow"],    .icon-up-arrow      { .icon-t("\30"); }
+[icon="down-arrow"],  .icon-down-arrow    { .icon-t("\41"); }
+[icon="menu"],        .icon-menu          { .icon-t("\21"); }
+[icon="cross"],       .icon-cross         { .icon-t("\22"); }
+
+
+// Typography Styles
+// ------------------------------------------------------------
+//
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    color: @vdark-grey;
+    line-height: @base-line-height;
+    text-rendering: optimizelegibility;
+}
+
+h1, h2, h3 { line-height: (@base-line-height + 10); }
+
+
+// Loop over headings and change the font-size
+.heading(@num) when (@num > 0) {
+    h@{num} { font-size: (@base-font-size * (3.5 - @num * .5)); }
+    .heading((@num - 1));
+}
+.heading(6);
+
+// Make the H6 just a tad bigger
+h6 { font-size: (@base-font-size - 2); }
