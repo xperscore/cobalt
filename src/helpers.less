@@ -216,9 +216,15 @@
 // --------------------
 //
 .theme(@type) {}
+
 .wireframe(@type) {}
+
 .customize(@type) {
     body[wireframe=""] & {
+        background: transparent none;
+        box-shadow: none;
+        text-shadow: none;
+        color: gray;
         .wireframe(@type);
     }
     body:not([wireframe=""]) & {
