@@ -319,54 +319,105 @@ label[for=site-nav-toggle] {
 // @color: [notset] || lightgray || red || green || blue || yellow || dark || Custom HEX
 // 
 .btn(@size: small, @rounded: false, @color: notset) {
-    
-    // ----------------------------------------
-    // Set button's border-radius
-    //
-    .rounded(@rounded);
-    
-    // ----------------------------------------
-    // Set button size
-    //
-    .padding-size() when (@size = very-small) {
-        padding: 5px 8px;
-    }
-    .padding-size() when (@size = small) {
-        padding: 8px 12px;
-    }
-    .padding-size() when (@size = medium) {
-        padding: 12px 22px;
-    }
-    .padding-size() when (@size = large) {
-        padding: 15px 40px;
-        font-size: @base-font-size + 5;
-    }
-    .padding-size() when (@size = huge) {
-        padding: 25px 80px;
-        font-size: @base-font-size + 10;
-    }
+    background: transparent;
+    display: inline-block;
 
-    // ----------------------------------------
-    // Set button color
-    //
+    .border;
+    .btn-sizing(@size, @rounded);
+    .color;
+
     .color() when (@color = notset) {
         .customize('btn-color');
     }
     .color() when not (@color = notset) {
         .btn-color(@color) !important;
     }
+}
 
-    // Default background transparent
-    background: transparent;
-    
-    // Set everything.
-    display: inline-block;
-    .border;
-    .padding-size;
-    .color;
+.btn-sizing(@size: small, @rounded: false, @nudge: 0) {
+  box-sizing: border-box;
+  vertical-align: middle;
 
-} // btn()
+  .rounded(@rounded);
 
+  @basefs: @base-font-size;
+  @baselh: 18px;
+
+  // size        vpad (px)   hpad (px)
+  // ---------------------------------
+  .sizes(
+     very-small   5           8
+     small        8          12
+     medium      12          22
+     large       15          40
+     huge        25          80
+  );
+
+  .sizes(@xs, @n: 1) {
+    .next(extract(@xs, @n), extract(@xs, (@n+1)), extract(@xs, (@n+2)));
+    .next(@sz,              @vpad,                @hpad) when (iskeyword(@sz)) {
+      .apply;
+
+      .apply() when (@sz = @size) {
+        @lh: (@baselh + 2px * @vpad + @nudge);
+
+        line-height: @lh;
+        height:      (@lh + 2);
+        padding:     0 (@hpad * 1px);
+
+        &[icon] {
+          padding-left: 0;
+          &:before {
+            display: inline-block;
+            text-align: center;
+          }
+        }
+
+        .lpad;
+
+        // add a base left padding of 1/8 LH when rounded to counteract the curvature
+        .lpad() when (@rounded = true), (@rounded = left) {
+          .adjust-lpad(@lh/8);
+        }
+        .lpad() when not (@rounded = true) and not (@rounded = left) {
+          .adjust-lpad(0);
+        }
+
+        // ensure a minimum amount of space for the icon
+        .adjust-lpad(@baselp) when (@hpad < 30) {
+          .apply-lpad(@baselp, 30px);
+        }
+        .adjust-lpad(@baselp) when (@hpad >= 30) {
+          .apply-lpad(@baselp, @hpad*1px);
+        }
+
+        .apply-lpad(@baseplp, @icon-hp) {
+          padding-left: (@baselp + @hpad*1px);
+          &[icon]:before {
+            margin-left: (@baselp + @icon-hp/4);
+            width:       (3/4*@icon-hp);
+          }
+        }
+
+        // empty, i.e., icon-only button
+        &:empty {
+          width:  (@lh + 2);
+          padding: 0;
+          text-align: center;
+          .rounded(true);
+
+          &:before {
+            margin: 0; padding: 0;
+            width: auto;
+            display: inline;
+          }
+        }
+
+      }
+      .sizes(@xs, (@n+3));
+    }
+  }
+}
 
 // ----------------------------------------
 // Button Panels 
@@ -491,92 +542,61 @@ label[for=site-nav-toggle] {
 // ----------------------------------------
 //
 
-// Input's
+// Inputs
 // ----------------------------------------
 //
 .input-container(@size: large, @rounded: true) {
     display: inline-block;
+
     .border(@vlight-grey);
-    padding-left: 20px;
-    .rounded(@rounded);
     
-    // When Icon is present
-    &[icon] {
-        padding-left: 15px;
-        
-        &::before {
-            margin-right: 10px;
-            color: @light-grey;
-        }
-    }
+    .btn-sizing(@size, @rounded);
+    padding-right: 0;
+
+    &[icon]:before { color: @light-grey; }
     
     > input {
-        display: inline-block;
         color: @dark-grey;
-        
         border: 0; background: transparent;
-        width: 100%; 
-        
-        .input-size() when (@size = very-small) {
-            width: 150px;
+        padding: 0;
+
+        .sizes(
+          very-small 150
+          small      200
+          medium     250
+          large      300
+          huge       450
+        );
+
+        .sizes(@xs, @n: 1) {
+          .next(extract(@xs, @n), extract(@xs, (@n+1)));
+          .next(@sz, @w) when (iskeyword(@sz)) {
+            .apply;
+            .apply() when (@sz = @size) {
+              width: (@w * 1px);
+            }
+            .sizes(@xs, (@n+2));
+          }
         }
-        .input-size() when (@size = small) {
-            width: 200px;
-        }
-        .input-size() when (@size = medium) {
-            width: 250px;
-        }
-        .input-size() when (@size = large) {
-            width: 300px;
-        }
-        .input-size() when (@size = huge) {
-            width: 450px;
-        }
-        
-        // Apply
-        .input-size;
-    
+
     } // input
     
-    button {
-    
-        // Set button size
-        .padding-size() when (@size = very-small) {
-            padding: 5px 8px;
+    > button {
+        float: right;
+        margin: -1px 0;
+        .border-radius-left(0);
+
+        .sizing;
+        .sizing() when (@rounded = true), (@rounded = right) {
+          .do-sizing(right);
         }
-        .padding-size() when (@size = small) {
-            padding: 8px 12px;
-        }
-        .padding-size() when (@size = medium) {
-            padding: 12px 22px;
-        }
-        .padding-size() when (@size = large) {
-            padding: 15px 25px;
-            font-size: @base-font-size + 5;
-        }
-        .padding-size() when (@size = huge) {
-            padding: 30px 30px;
-            font-size: @base-font-size + 10;
+        .sizing() when not (@rounded = true) {
+          .do-sizing(false);
         }
         
-        .is-rounded() when (@rounded = true) {
-            .rounded(right);
+        .do-sizing(@rnd) {
+          .btn-sizing(@size, @rnd);
         }
-    
-        display: inline-block;
-        margin: -1px -1px;
-        .padding-size;
-        .is-rounded;
-        .border-radius-left(0);
-    
     } // button
 
-    
 } // input-container();
-
-
-
-
-
-
-
