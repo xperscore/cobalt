@@ -321,6 +321,7 @@ label[for=site-nav-toggle] {
 .btn(@size: small, @rounded: false, @color: notset) {
     background: transparent;
     display: inline-block;
+    cursor: pointer;
 
     .border;
     .btn-sizing(@size, @rounded);
@@ -334,8 +335,13 @@ label[for=site-nav-toggle] {
     }
 }
 
-.btn-sizing(@size: small, @rounded: false, @nudge: 0, @min-icon-space: 36) {
-  box-sizing: border-box;
+.btn-sizing(@size:        small,
+            @rounded:     false,
+            @nudge:           0,
+            @min-icon-space: 36,
+            @round-empty:  true) {
+       box-sizing: border-box;
+  -moz-box-sizing: border-box;
   vertical-align: middle;
 
   .rounded(@rounded);
@@ -404,7 +410,11 @@ label[for=site-nav-toggle] {
           width:  (@lh + 2);
           padding: 0;
           text-align: center;
-          .rounded(true);
+
+          .rounding;
+          .rounding() when (@round-empty) {
+            .rounded(true);
+          }
 
           &:before {
             margin: 0; padding: 0;
@@ -545,7 +555,7 @@ label[for=site-nav-toggle] {
 // Inputs
 // ----------------------------------------
 //
-.input-container(@size: large, @rounded: true) {
+.input-container(@size: large, @rounded: false) {
     display: inline-block;
 
     .border(@vlight-grey);
@@ -583,8 +593,8 @@ label[for=site-nav-toggle] {
     
     > button {
         float: right;
-        margin: -1px 0;
-        .border-radius-left(0);
+        margin: -1px;
+        margin-left: 0;
 
         .sizing;
         .sizing() when (@rounded = true), (@rounded = right) {
@@ -595,8 +605,11 @@ label[for=site-nav-toggle] {
         }
         
         .do-sizing(@rnd) {
-          .btn-sizing(@size, @rnd);
+          .btn-sizing(@size, @rnd, @round-empty: false);
         }
+
+        .border-radius-left(0);
+
     } // button
 
 } // input-container();
