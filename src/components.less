@@ -334,7 +334,7 @@ label[for=site-nav-toggle] {
     }
 }
 
-.btn-sizing(@size: small, @rounded: false, @nudge: 0) {
+.btn-sizing(@size: small, @rounded: false, @nudge: 0, @min-icon-space: 36) {
   box-sizing: border-box;
   vertical-align: middle;
 
@@ -384,10 +384,10 @@ label[for=site-nav-toggle] {
         }
 
         // ensure a minimum amount of space for the icon
-        .adjust-lpad(@baselp) when (@hpad < 30) {
-          .apply-lpad(@baselp, 30px);
+        .adjust-lpad(@baselp) when (@hpad < @min-icon-space) {
+          .apply-lpad(@baselp, @min-icon-space*1px);
         }
-        .adjust-lpad(@baselp) when (@hpad >= 30) {
+        .adjust-lpad(@baselp) when (@hpad >= @min-icon-space) {
           .apply-lpad(@baselp, @hpad*1px);
         }
 
@@ -550,7 +550,7 @@ label[for=site-nav-toggle] {
 
     .border(@vlight-grey);
     
-    .btn-sizing(@size, @rounded);
+    .btn-sizing(@size, @rounded, @min-icon-space: 32);
     padding-right: 0;
 
     &[icon]:before { color: @light-grey; }
