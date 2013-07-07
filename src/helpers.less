@@ -215,19 +215,14 @@
 // Customization Points
 // --------------------
 //
-.theme(@type) {}
-
 .wireframe(@type) {}
 
 .customize(@type) {
     body[wireframe=""] & {
-        background: transparent none;
-        box-shadow: none;
-        text-shadow: none;
-        color: gray;
+        background:  transparent none !important;
+        box-shadow:  none             !important;
+        text-shadow: none             !important;
+        color:       gray             !important;
         .wireframe(@type);
-    }
-    body:not([wireframe=""]) & {
-        .theme(@type);
     }
 }
