@@ -11,13 +11,13 @@
 // @End   = Bottom
 //
 .gradient(@start: #fff, @end: #e5e5e5, @start-pos: 0%, @end-pos: 100%) {
-	background: darken(@start, 5%);
-	background: -moz-linear-gradient(top, @start @start-pos, @end @end-pos);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(@start-pos, @start), color-stop(@end-pos, @end));
-	background: -webkit-linear-gradient(top, @start @start-pos, @end @end-pos);
-	background: -ms-linear-gradient(top, @start @start-pos, @end @end-pos);
-	background: -o-linear-gradient(top, @start @start-pos, @end @end-pos);
-	background: linear-gradient(to bottom, @start @start-pos, @end @end-pos);
+	background-color: darken(@start, 5%);
+	background-image: -moz-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(@start-pos, @start), color-stop(@end-pos, @end));
+	background-image: -webkit-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background-image: -ms-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background-image: -o-linear-gradient(top, @start @start-pos, @end @end-pos);
+	background-image: linear-gradient(to bottom, @start @start-pos, @end @end-pos);
 }
 
 .radial-gradient(@center: #fff, @end: rgba(0,0,0,0)) {
