@@ -42,7 +42,7 @@
     margin-bottom: 20px;
     margin-right: 2%;
 
-    &:last-child {
+    &:last-child, &.last-in-row {
         margin-right: 0;
     }
 
@@ -59,13 +59,17 @@
     // span of n "covers" (n - 1) internal gutters.
     // total avail. width is 100% - 11 internal gutters
     @tot-avail: (1 - 11 * @grid-gutter);
-    width: (@span * @tot-avail / 12 + (@span - 1) * @grid-gutter) * 100%;
+    width: (@span * @tot-avail / 12 + (@span - 1) * @grid-gutter) * 100% !important;
 }
 
 [half] { .grid-section(6); }    
 [third] { .grid-section(4); }    
 [quarter] { .grid-section(3); }
 [sixth] { .grid-section(2); }
+
+[two-thirds] { .grid-section(8); }
+[three-quarters] { .grid-section(9); }
+
 
 // golden ratio sections, accounting for 2% gutter
 & {
