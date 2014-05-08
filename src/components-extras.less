@@ -1,0 +1,293 @@
+.wireframe(@type) {}
+
+.customize(@type) {
+    body[wireframe=""] & {
+        background:  transparent none !important;
+        box-shadow:  none             !important;
+        text-shadow: none             !important;
+        color:       gray             !important;
+        .wireframe(@type);
+    }
+}
+
+// ------------------------------------------------------------
+// Break point tester
+//
+// Include: <div bp-tester></div>
+//
+[bp-tester] {
+	&:after {
+		position: fixed;
+		bottom: 0px;
+		left: 0;
+		height: 20px;
+		width: 100%;
+		content: "";
+		padding: 10px;
+		text-align: center;
+    }
+}
+
+[bp-indicator] {
+    display: inline-block;
+
+    &:after {
+        background: gray;
+        content: 'NOBP';
+    }
+}
+
+[bp-tester], [bp-indicator] {
+    &:after {	
+        .indications(
+            @bp1 '@BP1' crimson
+            @bp2 '@BP2' orange
+            @bp3 '@BP3' gold
+            @bp4 '@BP4' limegreen
+            @bp5 '@BP5' cornflowerblue
+            @bp6 '@BP6' orchid
+            @bp7 '@BP7' blueviolet
+        );
+
+        .indications(@list, @num: 1) {
+            .next((extract(@list, @num)),
+                    (extract(@list, @num + 1)),
+                    (extract(@list, @num + 2)));
+            .next(@v, @lbl, @color) when (isnumber(@v)) {
+                @media screen and (max-width: @v) {
+                    background: @color;
+                    content: '@{v}, @{lbl}';
+                }
+                .indications(@list, (@num + 3));
+            }
+        }
+	}
+}
+//
+// BP TESTER
+
+// ------------------------------------------------------------
+// Vertical & Horizontal Tabs
+// ------------------------------------------------------------
+//
+[tabs], [vtabs] {
+    margin-bottom: 20px;
+    .contain-floats;
+
+    // Selected tab indicator
+    > input { display: none; }
+    
+    // Tab buttons
+    > nav label {
+        cursor: pointer;
+        .border;
+        padding: 10px 20px;
+        .customize('tab-btn');
+        
+        &:hover {
+            .customize('tab-btn:hover');
+        }
+    }
+    
+    // Tab content containers
+    > [content] > div {
+        display: none;
+    }
+    
+    // Selected tab button
+    .sel-tab-btn(@idx) { > input:checked:nth-child(@{idx}) ~ nav > label:nth-child(@{idx}) {
+        .customize('tab-btn:active');
+    } }
+
+    // Selected tab content container
+    .sel-tab-cont(@idx) { > input:checked:nth-child(@{idx}) ~ [content] > div:nth-child(@{idx}) {
+        display: block;
+    } }
+
+    // Enumerate tab selectablility
+    .selectable(@idx) when (@idx > 0) {
+        .sel-tab-btn(@idx);
+        .sel-tab-cont(@idx);
+        .selectable((@idx - 1));
+    }
+
+    // Allow up to 10 tabs
+    .selectable(10);
+    
+} // [tabs], [vtabs]
+
+.wireframe('tab-btn:active') {
+    background: lightgray;
+}
+
+// Horizontal tabs
+[tabs] {
+    > nav label {
+        float: left;
+        .border-radius-top();
+    }
+    
+    > nav label + label {
+         margin-left: 6px;
+     }
+
+    > [content] {
+        
+        > div {
+            float: left;
+            width: 100%;
+            margin-top: -1px;
+            .border(#b3b3b3);
+        }
+    }
+}
+
+// Vertical tabs
+[vtabs] {
+    .border(#b3b3b3);
+    .border-radius-left;
+    border-left: none;
+    
+    > nav {
+        float: left;
+        margin-top: -1px;
+        margin-bottom: -1px;
+        
+        > label {
+            display: block;
+
+            + label {
+                border-top: none !important;
+            }
+
+            &:first-child {
+                .border-radius-top-left;
+            }
+
+            &:last-child {
+                .border-radius-bottom-left;
+            }
+        }
+    
+    } // > nav
+
+    > [content] {
+        overflow: hidden;
+    }
+}
+
+// ------------------------------------------------------------
+// Site Nav
+// ------------------------------------------------------------
+//
+
+[site-nav] {
+    .contain-floats;
+
+    // nav links.
+    > * {
+        padding: 3px 20px;
+        text-decoration: none;
+        float: left;
+        margin-right: 10px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    @media screen and (max-width: @bp6) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        overflow: hidden;
+        width: 0;
+        -webkit-transition: 0.3s width;
+
+        // nav links.
+        > * {
+            float: none;
+            display: block;
+        }
+    }
+}
+
+#site-nav-toggle {
+    display: none;
+}
+
+// site nav button in responsive mode
+label[for=site-nav-toggle] {
+    display: none;
+    cursor: pointer;
+    .border(lightgray);
+    .border-radius;
+    padding: 3px 5px 1px;
+
+    &:before {
+        .icon-menu;
+    }
+}
+
+@media screen and (max-width: @bp6) {
+    label[for=site-nav-toggle] {
+        display: inline-block;
+    }
+    
+    // site-nav expanded
+    #site-nav-toggle {
+        ~ * [fixed-width], ~ [fixed-width] {
+            -webkit-transition: 0.3s margin-left;
+        }
+
+        &:checked {
+            ~ * [site-nav] {
+                display: block;
+                width: 125px;
+            }
+            ~ * > [fixed-width], ~ [fixed-width] {
+                margin-left: 140px;
+            }
+        }
+    }
+}
+// site-nav()
+
+// ----------------------------------------
+// Button Panels 
+// ----------------------------------------
+//
+[panel] {
+    position: fixed;
+    margin: 0; // <menu> elements get a mean margin
+    bottom: -50px;
+    left: 5px;
+    right: 5px;
+    padding: 10px;
+    background: lightgray;
+
+    &[panel=expanded] {
+        bottom: 0px; // REVIEW: height
+        -webkit-transition: 0.4s bottom;
+    }
+
+
+    .border-radius-top(5px);
+
+    > * {
+        padding: 3px;
+        .border;
+        .types(command widget preview);
+
+        .types(@xs, @n: 1) {
+            .next(extract(@xs, @n));
+            .next(@v) when (iskeyword(@v)) {
+                &[@{v}]:before {
+                    content: attr(@v);
+                }
+                .types(@xs, (@n + 1));
+            }
+        }
+    }
+}
