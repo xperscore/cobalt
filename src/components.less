@@ -246,7 +246,7 @@ a:hover    { color: @cobalt-blue; }
         @highlight:  lighten(@color, 20%);
         @border:     darken(@color, 25%);
         
-        .btn-styles(@lightcolor, @darkcolor, @highlight, @border, light);
+        .btn-styles(lighten(@color, 5%), darken(@color, 12%), lighten(@color, 20%), darken(@color, 25%), light);
     }
 
     .style() when (@color = default) { .btn-styles(); }
